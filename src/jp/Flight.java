@@ -26,7 +26,24 @@ public class Flight implements Comparable<Flight>{
 
     @Override
     public int compareTo(Flight flight) {
-        return this.fuel - flight.fuel;
+        if(this.fuel - flight.fuel > 0)
+            return 1;
+        if(this.fuel - flight.fuel == 0){
+            if(flight.waitTime - this.waitTime >  0) return 1;
+            if(flight.waitTime - this.waitTime == 0) return 0;
+            if(flight.waitTime - this.waitTime <  0) return -1;
+        }
+        if(this.fuel - flight.fuel < 0)
+            return -1;
+        return 0;
+    }
+
+    public void incWaitTime(){ //add waitTime
+        this.waitTime++;
+    }
+
+    public void decFuel(){ //
+        this.fuel--;
     }
 
     public int getFlghitNo() {
