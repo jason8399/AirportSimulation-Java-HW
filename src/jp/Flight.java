@@ -5,10 +5,11 @@ package jp;
  */
 public class Flight implements Comparable<Flight>{
     private static int count;
-    private int flghitNo;
+    private int flightNo;
     private int fuel;
     private int waitTime;
     private boolean isArrival;
+    private boolean isCrash;
 
     {
         count = 0;
@@ -16,23 +17,24 @@ public class Flight implements Comparable<Flight>{
 
     Flight(){
         count++;
-        this.flghitNo = count;
+        this.flightNo = count;
         this.fuel = 25;
         this.waitTime = 0;
         this.isArrival = true;
+        this.isCrash = false;
     }
 
     @Override
     public int compareTo(Flight flight) {
-        return 0;
+        return this.fuel - flight.fuel;
     }
 
     public int getFlghitNo() {
-        return flghitNo;
+        return flightNo;
     }
 
     public void setFlghitNo(int flghitNo) {
-        this.flghitNo = flghitNo;
+        this.flightNo = flghitNo;
     }
 
     public int getFuel() {
@@ -57,5 +59,13 @@ public class Flight implements Comparable<Flight>{
 
     public void setIsArrival(boolean isArrival) {
         this.isArrival = isArrival;
+    }
+
+    public boolean isCrash() {
+        return isCrash;
+    }
+
+    public void setIsCrash(boolean isCrash) {
+        this.isCrash = isCrash;
     }
 }
