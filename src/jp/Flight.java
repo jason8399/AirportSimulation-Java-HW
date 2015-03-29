@@ -5,14 +5,19 @@ package jp;
  */
 public class Flight implements Comparable<Flight>{
     private static int count;
+    private static int totalSuccessTakeOff;
+    private static int totalSuccessLand;
+    private static int totalCrashed;
     private int flightNo;
     private int fuel;
     private int waitTime;
     private boolean isArrival;
-    private boolean isCrash;
 
-    {
+    static{
         count = 0;
+        totalSuccessLand = 0;
+        totalSuccessTakeOff = 0;
+        totalCrashed = 0;
     }
 
     Flight(){
@@ -21,7 +26,6 @@ public class Flight implements Comparable<Flight>{
         this.fuel = 25;
         this.waitTime = 0;
         this.isArrival = true;
-        this.isCrash = false;
     }
 
     @Override
@@ -36,6 +40,30 @@ public class Flight implements Comparable<Flight>{
         if(this.fuel - flight.fuel < 0)
             return -1;
         return 0;
+    }
+
+    public static void incTotalSuccessTakeOff(){
+        totalSuccessTakeOff++;
+    }
+
+    public static int getTotalSuccessTakeOff() {
+        return totalSuccessTakeOff;
+    }
+
+    public static void incTotalSuccessLand(){
+        totalSuccessLand++;
+    }
+
+    public static int getTotalSuccessLand() {
+        return totalSuccessLand;
+    }
+
+    public static void addToTotalCrashed(int crashed){
+        totalCrashed += crashed;
+    }
+
+    public static int getTotalCrashed() {
+        return totalCrashed;
     }
 
     public void incWaitTime(){ //add waitTime
@@ -76,13 +104,5 @@ public class Flight implements Comparable<Flight>{
 
     public void setIsArrival(boolean isArrival) {
         this.isArrival = isArrival;
-    }
-
-    public boolean isCrash() {
-        return isCrash;
-    }
-
-    public void setIsCrash(boolean isCrash) {
-        this.isCrash = isCrash;
     }
 }
