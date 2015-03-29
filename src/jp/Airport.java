@@ -25,11 +25,15 @@ public class Airport {
     }
 
     public void start(){
+        for(int i = 0; i < this.count; i++){
+            incAllWaitTime();
+            decAllFuel();
+            makeFlight();
 
-
+        }
     }
 
-    public void makeFlight(){
+    private void makeFlight(){
         //random make 0 ~ 5 flight
         Random rand = new Random();
         int num = rand.nextInt(5);
@@ -67,6 +71,29 @@ public class Airport {
         //add crashed to totalCrash and clean crashed
         this.totalCrash += this.crashed;
         this.crashed = 0;
+    }
+
+    private void landTakeOffProcess(){
+        //handle land and take off.
+        if(!this.departure.isEmpty()){
+            if(this.arrival.peek().getFuel() > 2){
+                this.departure.poll();
+            }
+            else{
+                Flight landed = this.arrival.poll();
+                landed.setWaitTime(0);
+                this.departure.add(landed);
+            }
+        }
+        else{
+            Flight landed = this.arrival.poll();
+            landed.setWaitTime(0);
+            this.departure.add(landed);
+        }
+    }
+
+    private void printInfo(){
+        
     }
 
     public PriorityQueue<Flight> getArrival() {
