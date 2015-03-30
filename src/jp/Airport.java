@@ -1,13 +1,14 @@
 package jp;
 
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by JasonPan on 3/29/15.
  */
 public class Airport {
     private PriorityQueue<Flight> arrival = new PriorityQueue<>();
-    private PriorityQueue<Flight> departure = new PriorityQueue<>();
+    private LinkedBlockingQueue<Flight> departure = new LinkedBlockingQueue<>();
     private ArrayList<Integer> arrivingList = new ArrayList<>();
     private ArrayList<Integer> departureList = new ArrayList<>();
     private int count;
@@ -223,11 +224,11 @@ public class Airport {
         this.arrival = arrival;
     }
 
-    public PriorityQueue<Flight> getDeparture() {
+    public LinkedBlockingQueue<Flight> getDeparture() {
         return departure;
     }
 
-    public void setDeparture(PriorityQueue<Flight> departure) {
+    public void setDeparture(LinkedBlockingQueue<Flight> departure) {
         this.departure = departure;
     }
 
