@@ -13,12 +13,12 @@ public class Airport {
     private int count;
     private int crashed;
     private int time;
-    private int successTakeOff;
-    private int successLand;
-    private int totalLengthArrival;
-    private int totalLengthDeparture;
-    private int totalLandTime;
-    private int totalTakeOffTime;
+    private double successTakeOff;
+    private double successLand;
+    private double totalLengthArrival;
+    private double totalLengthDeparture;
+    private double totalLandTime;
+    private double totalTakeOffTime;
 
     Airport(){
         this.count = 100;
