@@ -58,7 +58,6 @@ public class Airport {
         }
         //For the flights in Queue
         for(;!arrival.isEmpty() || !departure.isEmpty();){
-            this.time++;
             lengthCal();
             for(int j = 0; j < 1; j++)
                 landTakeOffProcess();
@@ -66,6 +65,7 @@ public class Airport {
             decAllFuel();
             printInfo();
             clean();
+            this.time++;
         }
         endPrint();
     }
@@ -126,19 +126,30 @@ public class Airport {
                 }
             }
             else{
-                Flight takeOff;
-                takeOff = departure.poll();
-                Flight.incTotalSuccessTakeOff();
-                departureList.add(takeOff.getFlghitNo());
-                successTakeOff++;
-                this.totalTakeOffTime += takeOff.getWaitTime();
-
                 Flight landed = this.arrival.poll();
                 this.totalLandTime += landed.getWaitTime();
                 landed.setWaitTime(0);
                 this.departure.add(landed);
                 Flight.incTotalSuccessLand();
                 successLand++;
+
+                if(!this.arrival.isEmpty() && this.arrival.peek().getFuel() == 1){
+                    landed = this.arrival.poll();
+                    this.totalLandTime += landed.getWaitTime();
+                    landed.setWaitTime(0);
+                    this.departure.add(landed);
+                    Flight.incTotalSuccessLand();
+                    successLand++;
+                }
+                else{
+                    Flight takeOff;
+                    takeOff = departure.poll();
+                    Flight.incTotalSuccessTakeOff();
+                    departureList.add(takeOff.getFlghitNo());
+                    successTakeOff++;
+                    this.totalTakeOffTime += takeOff.getWaitTime();
+                }
+
             }
         }
         else{
@@ -149,6 +160,7 @@ public class Airport {
                 this.departure.add(landed);
                 Flight.incTotalSuccessLand();
                 successLand++;
+
                 if(!this.arrival.isEmpty()) {
                     landed = this.arrival.poll();
                     this.totalLandTime += landed.getWaitTime();
