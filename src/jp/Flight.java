@@ -13,7 +13,6 @@ public class Flight implements Comparable<Flight>{
     private int flightNo;
     private int fuel;
     private int waitTime;
-    private boolean isArrival;
 
     static{
         count = 0;
@@ -28,7 +27,6 @@ public class Flight implements Comparable<Flight>{
         this.flightNo = count;
         this.fuel = num.nextInt(25) + 1;
         this.waitTime = 0;
-        this.isArrival = true;
     }
 
     @Override
@@ -99,13 +97,5 @@ public class Flight implements Comparable<Flight>{
 
     public void setWaitTime(int waitTime) {
         this.waitTime = waitTime;
-    }
-
-    public boolean isArrival() {
-        return isArrival;
-    }
-
-    public void setIsArrival(boolean isArrival) {
-        this.isArrival = isArrival;
     }
 }
