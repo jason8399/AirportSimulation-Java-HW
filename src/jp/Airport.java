@@ -115,8 +115,23 @@ public class Airport {
                 departureList.add(takeOff.getFlghitNo());
                 successTakeOff++;
                 this.totalTakeOffTime += takeOff.getWaitTime();
+
+                if(!this.departure.isEmpty()) {
+                    takeOff = departure.poll();
+                    Flight.incTotalSuccessTakeOff();
+                    departureList.add(takeOff.getFlghitNo());
+                    successTakeOff++;
+                    this.totalTakeOffTime += takeOff.getWaitTime();
+                }
             }
             else{
+                Flight takeOff;
+                takeOff = departure.poll();
+                Flight.incTotalSuccessTakeOff();
+                departureList.add(takeOff.getFlghitNo());
+                successTakeOff++;
+                this.totalTakeOffTime += takeOff.getWaitTime();
+
                 Flight landed = this.arrival.poll();
                 this.totalLandTime += landed.getWaitTime();
                 landed.setWaitTime(0);
@@ -133,6 +148,14 @@ public class Airport {
                 this.departure.add(landed);
                 Flight.incTotalSuccessLand();
                 successLand++;
+                if(!this.arrival.isEmpty()) {
+                    landed = this.arrival.poll();
+                    this.totalLandTime += landed.getWaitTime();
+                    landed.setWaitTime(0);
+                    this.departure.add(landed);
+                    Flight.incTotalSuccessLand();
+                    successLand++;
+                }
             }
         }
     }
