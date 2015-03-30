@@ -1,5 +1,7 @@
 package jp;
 
+import java.util.Random;
+
 /**
  * Created by JasonPan on 3/29/15.
  */
@@ -22,8 +24,9 @@ public class Flight implements Comparable<Flight>{
 
     Flight(){
         count++;
+        Random num = new Random();
         this.flightNo = count;
-        this.fuel = 25;
+        this.fuel = num.nextInt(25) + 1;
         this.waitTime = 0;
         this.isArrival = true;
     }

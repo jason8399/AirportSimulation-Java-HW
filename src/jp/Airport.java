@@ -15,6 +15,10 @@ public class Airport {
     private int time;
     private int successTakeOff;
     private int successLand;
+    private int totalLengthArrival;
+    private int totalLengthDeparture;
+    private int totalLandTime;
+    private int totalTakeOffTime;
 
     Airport(){
         this.count = 100;
@@ -22,6 +26,10 @@ public class Airport {
         this.time = 0;
         this.successLand = 0;
         this.successTakeOff = 0;
+        this.totalLengthArrival = 0;
+        this.totalLengthDeparture = 0;
+        this.totalLandTime = 0;
+        this.totalTakeOffTime = 0;
     }
 
     Airport(int count) {
@@ -30,10 +38,15 @@ public class Airport {
         this.time = 0;
         this.successLand = 0;
         this.successTakeOff = 0;
+        this.totalLengthArrival = 0;
+        this.totalLengthDeparture = 0;
+        this.totalLandTime = 0;
+        this.totalTakeOffTime = 0;
     }
 
     public void start(){
         for(time = 0; time < this.count; time++){
+            lengthCal();
             makeFlight();
             for(int j = 0; j < 1; j++)
                 landTakeOffProcess();
@@ -45,6 +58,7 @@ public class Airport {
         //For the flights in Queue
         for(;!arrival.isEmpty() || !departure.isEmpty();){
             this.time++;
+            lengthCal();
             for(int j = 0; j < 1; j++)
                 landTakeOffProcess();
             incAllWaitTime();
@@ -52,6 +66,7 @@ public class Airport {
             printInfo();
             clean();
         }
+        endPrint();
     }
 
     private void makeFlight(){
@@ -99,9 +114,11 @@ public class Airport {
                 Flight.incTotalSuccessTakeOff();
                 departureList.add(takeOff.getFlghitNo());
                 successTakeOff++;
+                this.totalTakeOffTime += takeOff.getWaitTime();
             }
             else{
                 Flight landed = this.arrival.poll();
+                this.totalLandTime += landed.getWaitTime();
                 landed.setWaitTime(0);
                 this.departure.add(landed);
                 Flight.incTotalSuccessLand();
@@ -111,6 +128,7 @@ public class Airport {
         else{
             if(!this.arrival.isEmpty()) {
                 Flight landed = this.arrival.poll();
+                this.totalLandTime += landed.getWaitTime();
                 landed.setWaitTime(0);
                 this.departure.add(landed);
                 Flight.incTotalSuccessLand();
@@ -145,7 +163,7 @@ public class Airport {
         System.out.println("\nCrashed: " + crashed);
     }
 
-    public void clean(){
+    private void clean(){
         //add crashed to totalCrash and clean crashed
         Flight.addToTotalCrashed(this.crashed);
         this.crashed = 0;
@@ -156,8 +174,22 @@ public class Airport {
         departureList.clear();
     }
 
-    public void endPrint(){
-        //TODO calculate average and print out
+    private void endPrint(){
+        //calculate average and print out
+        System.out.println("////////////////////////end//////////////////////////");
+        System.out.println("Average Depart length: " + (this.totalLengthDeparture / this.time));
+        System.out.println("Average Arrival length: " + (this.totalLengthArrival / this.time) + "\n");
+        System.out.println("Average TakeOff time: " + (this.totalTakeOffTime / Flight.getTotalSuccessTakeOff()));
+        System.out.println("Average Land time: " + (this.totalLandTime / Flight.getTotalSuccessLand()) + "\n");
+        System.out.println("Total Success TakeOff: " + Flight.getTotalSuccessTakeOff());
+        System.out.println("Total Success Land: " + Flight.getTotalSuccessLand());
+        System.out.println("Total Success Crash: " + Flight.getTotalCrashed());
+
+    }
+
+    private void lengthCal(){
+        this.totalLengthArrival += arrival.size();
+        this.totalLengthDeparture += departure.size();
     }
 
     public PriorityQueue<Flight> getArrival() {
